@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação de Atendimento</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        .grid-botoes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 18px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+            transition: transform 0.1s ease;
+        }
+
+        button:active {
+            transform: scale(0.94);
+        }
+
+        .vermelho { background-color: #e53935; }
+        .amarelo { background-color: #fbc02d; color: #333; }
+        .verde { background-color: #43a047; }
+
+        /* Rodapé Ajustado para Logotipos Horizontais/Retangulares */
+        footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+            margin-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            width: 100%;
+        }
+
+        .logo-instituicao {
+            width: 100%;
+            max-width: 180px; /* Define um tamanho visível e equilibrado no celular */
+            height: auto; /* Mantém a proporção perfeita sem achatar */
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .nome-instituicao {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Como você avalia o nosso atendimento hoje?</h2>
+
+        <div class="grid-botoes">
+            <!-- 1 a 4: Vermelho -->
+            <button class="vermelho" onclick="enviarNota(1)">1</button>
+            <button class="vermelho" onclick="enviarNota(2)">2</button>
+            <button class="vermelho" onclick="enviarNota(3)">3</button>
+            <button class="vermelho" onclick="enviarNota(4)">4</button>
+
+            <!-- 5 a 7: Amarelo -->
+            <button class="amarelo" onclick="enviarNota(5)">5</button>
+            <button class="amarelo" onclick="enviarNota(6)">6</button>
+            <button class="amarelo" onclick="enviarNota(7)">7</button>
+
+            <!-- 8 a 10: Verde -->
+            <button class="verde" onclick="enviarNota(8)">8</button>
+            <button class="verde" onclick="enviarNota(9)">9</button>
+            <button class="verde" onclick="enviarNota(10)">10</button>
+        </div>
+    </div>
+
+    <footer>
+        <img class="logo-instituicao" src="http://www.ibes.med.br/wp-content/uploads/2018/12/logo-menino-jesus-300x136.jpg" alt="Hospital Municipal Infantil Menino Jesus">
+        <div class="nome-instituicao">Todos os direios reservados 2026</div>
+    </footer>
+
+    <script>
+        function enviarNota(nota) {
+            // Cole aqui a sua URL gerada no Google Apps Script (Passo 1 da resposta anterior)
+            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxKhKA3mFQi0KN1ehHbh8akgFw2UUbEuPuHMRSgGWJhlc7XOdziAAMOnSOIeNPWwRRabg/exec";
+
+            fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nota: nota })
+            });
+
+            alert("Obrigado pela sua avaliação!");
+        }
+    </script>
+</body>
+</html>
