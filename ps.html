@@ -12,52 +12,61 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* Ocupa exatamente 100% da altura visível e evita rolagens desnecessárias */
         body {
             background-color: #f4f6f9;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 100vh;
-            padding: 20px;
+            align-items: center;
+            height: 100vh;
+            height: 100dvh; /* Altura dinâmica para navegadores móveis */
+            padding: 15px;
             color: #333;
+            overflow: hidden;
         }
 
+        /* Container principal expande para usar o espaço vertical disponível */
         .container {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px; /* Um pouco maior para telas horizontais */
             margin: 0 auto;
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: clamp(1.2rem, 4vh, 1.6rem); /* Ajusta o texto com base na altura da tela */
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 4vh;
             color: #444;
         }
 
+        /* Grid se adapta dinamicamente: 2 colunas no em pé, 5 colunas se deitado */
         .grid-botoes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            margin-bottom: 20px;
         }
 
         button {
             border: none;
             border-radius: 12px;
-            padding: 18px 0;
-            font-size: 1.5rem;
+            padding: 4vh 0; /* Altura do botão baseada na altura da tela */
+            min-height: 60px;
+            font-size: clamp(1.3rem, 5vh, 1.8rem); /* Número cresce se a tela for maior */
             font-weight: bold;
             color: white;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
             transition: transform 0.1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         button:active {
@@ -68,72 +77,90 @@
         .amarelo { background-color: #fbc02d; color: #333; }
         .verde { background-color: #43a047; }
 
-        /* Estilo da mensagem de agradecimento */
         #mensagem-agradecimento {
             display: none;
-            font-size: 1.6rem;
+            font-size: clamp(1.4rem, 5vh, 2rem);
             font-weight: bold;
             color: #43a047;
             text-align: center;
-            margin: 40px 0;
         }
 
-        /* Rodapé Ajustado para Logotipos Horizontais/Retangulares */
+        /* Rodapé fixo embaixo com tamanhos controlados */
         footer {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px 0;
-            margin-top: 20px;
+            padding-top: 10px;
             border-top: 1px solid #e0e0e0;
             width: 100%;
+            max-width: 500px;
         }
 
         .logo-instituicao {
-            width: 100%;
-            max-width: 180px; /* Define um tamanho visível e equilibrado no celular */
-            height: auto; /* Mantém a proporção perfeita sem achatar */
+            width: auto;
+            max-width: 150px;
+            height: auto;
+            max-height: 8vh; /* Garante que a logo não empurre o conteúdo em telas baixas */
             object-fit: contain;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .nome-instituicao {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #666;
             text-align: center;
             letter-spacing: 0.5px;
+        }
+
+        /* Mudança de Layout quando a tela estiver na Horizontal (Landscape) */
+        @media (orientation: landscape) and (max-height: 600px) {
+            h2 {
+                margin-bottom: 2vh;
+            }
+            .grid-botoes {
+                grid-template-columns: repeat(5, 1fr); /* 5 colunas para preencher melhor a largura */
+                gap: 8px;
+            }
+            button {
+                padding: 2vh 0;
+                min-height: 45px;
+            }
+            footer {
+                flex-direction: row;
+                justify-content: space-between;
+                padding-top: 5px;
+            }
+            .logo-instituicao {
+                margin-bottom: 0;
+                max-height: 6vh;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Bloco de conteúdo controlado por ID para poder ocultar/mostrar -->
         <div id="conteudo-avaliacao" style="width: 100%;">
             <h2>Como você avalia o nosso atendimento hoje?</h2>
 
             <div class="grid-botoes">
-                <!-- 1 a 4: Vermelho -->
                 <button class="vermelho" onclick="enviarNota(1)">1</button>
                 <button class="vermelho" onclick="enviarNota(2)">2</button>
                 <button class="vermelho" onclick="enviarNota(3)">3</button>
                 <button class="vermelho" onclick="enviarNota(4)">4</button>
 
-                <!-- 5 a 7: Amarelo -->
                 <button class="amarelo" onclick="enviarNota(5)">5</button>
                 <button class="amarelo" onclick="enviarNota(6)">6</button>
                 <button class="amarelo" onclick="enviarNota(7)">7</button>
 
-                <!-- 8 a 10: Verde -->
                 <button class="verde" onclick="enviarNota(8)">8</button>
                 <button class="verde" onclick="enviarNota(9)">9</button>
                 <button class="verde" onclick="enviarNota(10)">10</button>
             </div>
         </div>
 
-        <!-- Div de agradecimento -->
         <div id="mensagem-agradecimento">
             Obrigado pela sua avaliação!
         </div>
@@ -146,10 +173,8 @@
 
     <script>
         function enviarNota(nota) {
-            // ATENÇÃO: Substitua pela URL gerada ao criar uma "Nova Versão" de implantação no Apps Script
-            const URL_GOOGLE_SCRIPT = "https://google.com";
+            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxKhKA3mFQi0KN1ehHbh8akgFw2UUbEuPuHMRSgGWJhlc7XOdziAAMOnSOIeNPWwRRabg/exec";
 
-            // Correção da comunicação CORS e formato de envio
             fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
                 mode: 'cors',
@@ -159,17 +184,11 @@
             .then(response => console.log('Nota salva com sucesso!'))
             .catch(error => console.error('Erro ao conectar com a planilha:', error));
 
-            // 1. Oculta a tela de botões
             document.getElementById('conteudo-avaliacao').style.display = 'none';
-
-            // 2. Mostra o texto de sucesso temporário
             document.getElementById('mensagem-agradecimento').style.display = 'block';
 
-            // 3. Aguarda 3 segundos (3000ms) e restaura o estado inicial da tela
             setTimeout(function() {
-                // Oculta a mensagem de obrigado
                 document.getElementById('mensagem-agradecimento').style.display = 'none';
-                // Traz os botões e a pergunta de volta
                 document.getElementById('conteudo-avaliacao').style.display = 'block';
             }, 3000);
         }
