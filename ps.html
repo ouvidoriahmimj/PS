@@ -68,7 +68,7 @@
         .amarelo { background-color: #fbc02d; color: #333; }
         .verde { background-color: #43a047; }
 
-        /* Estilo da nova mensagem de agradecimento */
+        /* Estilo da mensagem de agradecimento */
         #mensagem-agradecimento {
             display: none;
             font-size: 1.6rem;
@@ -110,7 +110,7 @@
 <body>
 
     <div class="container">
-        <!-- Bloco de conteúdo controlado por ID para poder ocultar -->
+        <!-- Bloco de conteúdo controlado por ID para poder ocultar/mostrar -->
         <div id="conteudo-avaliacao" style="width: 100%;">
             <h2>Como você avalia o nosso atendimento hoje?</h2>
 
@@ -133,21 +133,21 @@
             </div>
         </div>
 
-        <!-- Nova Div que receberá o texto dinamicamente -->
+        <!-- Div de agradecimento -->
         <div id="mensagem-agradecimento">
             Obrigado pela sua avaliação!
         </div>
     </div>
 
     <footer>
-        <img class="logo-instituicao" src="http://www.ibes.med.br/wp-content/uploads/2018/12/logo-menino-jesus-300x136.jpg" alt="Hospital Municipal Infantil Menino Jesus">
+        <img class="logo-instituicao" src="http://ibes.med.br" alt="Hospital Municipal Infantil Menino Jesus">
         <div class="nome-instituicao">Todos os direios reservados 2026</div>
     </footer>
 
     <script>
         function enviarNota(nota) {
-            // Cole aqui a sua URL gerada no Google Apps Script (Passo 1 da resposta anterior)
-            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxKhKA3mFQi0KN1ehHbh8akgFw2UUbEuPuHMRSgGWJhlc7XOdziAAMOnSOIeNPWwRRabg/exec";
+            // URL gerada no Google Apps Script
+            const URL_GOOGLE_SCRIPT = "https://google.com";
 
             fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
@@ -156,15 +156,18 @@
                 body: JSON.stringify({ nota: nota })
             });
 
-            // 1. Esconde a pergunta "Como você avalia..." e a grade de botões
+            // 1. Oculta a tela de botões
             document.getElementById('conteudo-avaliacao').style.display = 'none';
 
-            // 2. Exibe o texto em CSS diretamente na tela
+            // 2. Mostra o texto de sucesso temporário
             document.getElementById('mensagem-agradecimento').style.display = 'block';
 
-            // 3. Aguarda 3 segundos (3000ms) e fecha a aba/janela do navegador
+            // 3. Aguarda 3 segundos (3000ms) e restaura o estado inicial da tela
             setTimeout(function() {
-                window.close();
+                // Oculta a mensagem de obrigado
+                document.getElementById('mensagem-agradecimento').style.display = 'none';
+                // Traz os botões e a pergunta de volta
+                document.getElementById('conteudo-avaliacao').style.display = 'block';
             }, 3000);
         }
     </script>
