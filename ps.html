@@ -140,21 +140,24 @@
     </div>
 
     <footer>
-        <img class="logo-instituicao" src="http://www.ibes.med.br/wp-content/uploads/2018/12/logo-menino-jesus-300x136.jpg" alt="Hospital Municipal Infantil Menino Jesus">
-        <div class="nome-instituicao">Todos os direios reservados 2026</div>
+        <img class="logo-instituicao" src="http://ibes.med.br" alt="Hospital Municipal Infantil Menino Jesus">
+        <div class="nome-instituicao">Todos os direitos reservados 2026</div>
     </footer>
 
     <script>
         function enviarNota(nota) {
-            // URL gerada no Google Apps Script
-            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxKhKA3mFQi0KN1ehHbh8akgFw2UUbEuPuHMRSgGWJhlc7XOdziAAMOnSOIeNPWwRRabg/exec";
+            // ATENÇÃO: Substitua pela URL gerada ao criar uma "Nova Versão" de implantação no Apps Script
+            const URL_GOOGLE_SCRIPT = "https://google.com";
 
+            // Correção da comunicação CORS e formato de envio
             fetch(URL_GOOGLE_SCRIPT, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify({ nota: nota })
-            });
+            })
+            .then(response => console.log('Nota salva com sucesso!'))
+            .catch(error => console.error('Erro ao conectar com a planilha:', error));
 
             // 1. Oculta a tela de botões
             document.getElementById('conteudo-avaliacao').style.display = 'none';
