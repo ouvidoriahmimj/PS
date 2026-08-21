@@ -68,6 +68,16 @@
         .amarelo { background-color: #fbc02d; color: #333; }
         .verde { background-color: #43a047; }
 
+        /* Estilo da nova mensagem de agradecimento */
+        #mensagem-agradecimento {
+            display: none;
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #43a047;
+            text-align: center;
+            margin: 40px 0;
+        }
+
         /* Rodapé Ajustado para Logotipos Horizontais/Retangulares */
         footer {
             display: flex;
@@ -100,24 +110,32 @@
 <body>
 
     <div class="container">
-        <h2>Como você avalia o nosso atendimento hoje?</h2>
+        <!-- Bloco de conteúdo controlado por ID para poder ocultar -->
+        <div id="conteudo-avaliacao" style="width: 100%;">
+            <h2>Como você avalia o nosso atendimento hoje?</h2>
 
-        <div class="grid-botoes">
-            <!-- 1 a 4: Vermelho -->
-            <button class="vermelho" onclick="enviarNota(1)">1</button>
-            <button class="vermelho" onclick="enviarNota(2)">2</button>
-            <button class="vermelho" onclick="enviarNota(3)">3</button>
-            <button class="vermelho" onclick="enviarNota(4)">4</button>
+            <div class="grid-botoes">
+                <!-- 1 a 4: Vermelho -->
+                <button class="vermelho" onclick="enviarNota(1)">1</button>
+                <button class="vermelho" onclick="enviarNota(2)">2</button>
+                <button class="vermelho" onclick="enviarNota(3)">3</button>
+                <button class="vermelho" onclick="enviarNota(4)">4</button>
 
-            <!-- 5 a 7: Amarelo -->
-            <button class="amarelo" onclick="enviarNota(5)">5</button>
-            <button class="amarelo" onclick="enviarNota(6)">6</button>
-            <button class="amarelo" onclick="enviarNota(7)">7</button>
+                <!-- 5 a 7: Amarelo -->
+                <button class="amarelo" onclick="enviarNota(5)">5</button>
+                <button class="amarelo" onclick="enviarNota(6)">6</button>
+                <button class="amarelo" onclick="enviarNota(7)">7</button>
 
-            <!-- 8 a 10: Verde -->
-            <button class="verde" onclick="enviarNota(8)">8</button>
-            <button class="verde" onclick="enviarNota(9)">9</button>
-            <button class="verde" onclick="enviarNota(10)">10</button>
+                <!-- 8 a 10: Verde -->
+                <button class="verde" onclick="enviarNota(8)">8</button>
+                <button class="verde" onclick="enviarNota(9)">9</button>
+                <button class="verde" onclick="enviarNota(10)">10</button>
+            </div>
+        </div>
+
+        <!-- Nova Div que receberá o texto dinamicamente -->
+        <div id="mensagem-agradecimento">
+            Obrigado pela sua avaliação!
         </div>
     </div>
 
@@ -138,7 +156,16 @@
                 body: JSON.stringify({ nota: nota })
             });
 
-            alert("Obrigado pela sua avaliação!");
+            // 1. Esconde a pergunta "Como você avalia..." e a grade de botões
+            document.getElementById('conteudo-avaliacao').style.display = 'none';
+
+            // 2. Exibe o texto em CSS diretamente na tela
+            document.getElementById('mensagem-agradecimento').style.display = 'block';
+
+            // 3. Aguarda 3 segundos (3000ms) e fecha a aba/janela do navegador
+            setTimeout(function() {
+                window.close();
+            }, 3000);
         }
     </script>
 </body>
